@@ -1,7 +1,7 @@
 // config.js — Railway backend, no Firebase
 const CONFIG = {
   api: {
-    baseUrl: 'https://bakery-backend-production-dbeb.up.railway.app',
+    baseUrl: 'https://royal-goa-ride-backend-production.up.railway.app',
   },
   app: {
     name: 'Fashion Hub',
@@ -9,7 +9,7 @@ const CONFIG = {
     environment: 'production',
   },
   features: {
-    enablePayments: false,
+    enablePayments: true,
     enableStockNotifications: true,
     enableOrderTracking: true,
     enableAdminApproval: true,
