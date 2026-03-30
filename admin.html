@@ -1,33 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel - Fashion Hub</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Custom Styles -->
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Panel - Fashion Hub</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="styles.css" />
 </head>
-
 <body class="bg-white min-h-screen text-gray-800 antialiased">
+  <div id="root"></div>
 
-    <div id="root"></div>
-
-    <script src="js/config.js"></script>
-    <script src="js/security.js"></script>
-    <script src="js/backend-secure.js"></script>
-    <script src="js/ui-utils.js"></script>      ← Add this line
-    <script src="js/data.js"></script>
-    <script src="js/app.js"></script>
-    <script>
-        // Force admin view on load
-        window.addEventListener('DOMContentLoaded', () => {
-            if (typeof app !== 'undefined' && typeof app.goToAdmin === 'function') {
-                app.goToAdmin();
-            }
-        });
-    </script>
+  <script src="js/config.js"></script>
+  <script src="js/security.js"></script>
+  <script src="js/backend.js"></script>
+  <script src="js/ui-utils.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      if (typeof app !== 'undefined') app.goToAdmin();
+    });
+  </script>
 </body>
 </html>
