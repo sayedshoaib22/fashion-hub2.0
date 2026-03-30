@@ -1,5 +1,8 @@
 // backend.js — connects to local backend (for testing) or Railway
-const API = 'http://localhost:3000';
+// If deployed in production, point to the Railway backend URL.
+const API = (window && window.location && window.location.hostname && window.location.hostname.includes('localhost'))
+  ? 'http://localhost:3000'
+  : 'https://royal-goa-ride-backend-production.up.railway.app';
 
 async function apiCall(method, path, body) {
   try {
