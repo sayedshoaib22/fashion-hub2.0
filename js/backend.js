@@ -1,8 +1,9 @@
 // backend.js — connects to local backend (for testing) or Railway
-// If deployed in production, point to the Railway backend URL.
-const API = (window && window.location && window.location.hostname && window.location.hostname.includes('localhost'))
+// Uses CONFIG.api.baseUrl as single source of truth for the backend URL
+const API = (window && window.location && window.location.hostname &&
+  (window.location.hostname.includes('localhost') || window.location.hostname.includes('127.0.0.1')))
   ? 'http://localhost:3000'
-  : 'https://royal-goa-ride-backend-production.up.railway.app';
+  : (window.CONFIG?.api?.baseUrl || 'https://royal-goa-ride-backend-production.up.railway.app');
 
 async function apiCall(method, path, body) {
   try {
@@ -12,6 +13,10 @@ async function apiCall(method, path, body) {
     };
     if (body) opts.body = JSON.stringify(body);
     const res = await fetch(API + path, opts);
+    if (!res.ok) {
+      const errData = await res.json().catch(() => ({}));
+      return { success: false, message: errData.error || `HTTP ${res.status}` };
+    }
     const data = await res.json();
     return data;
   } catch (err) {
@@ -197,14 +202,24 @@ window.backend = {
 
   // Razorpay integration
   async getRazorpayConfig() {
+    if (!window.CONFIG?.features?.enablePayments) {
+      return { success: false, message: 'Payments are disabled' };
+    }
     return apiCall('GET', '/api/config');
   },
 
   async createRazorpayOrder(amount) {
+    if (!window.CONFIG?.features?.enablePayments) {
+      return { success: false, message: 'Payments are disabled' };
+    }
     return apiCall('POST', '/api/create-order', { amount });
   },
 
   async verifyRazorpayPayment(orderId, paymentId, signature) {
-    return apiCall('POST', '/api/verify-payment', { razorpay_order_id: orderId, razorpay_payment_id: paymentId, razorpay_signature: signature });
+    return apiCall('POST', '/api/verify-payment', {
+      razorpay_order_id: orderId,
+      razorpay_payment_id: paymentId,
+      razorpay_signature: signature
+    });
   }
 };
