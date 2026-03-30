@@ -1,4 +1,5 @@
 // backend.js — connects to local backend (for testing) or Railway
+// backend.js — connects to local backend (for testing) or Railway
 // Uses CONFIG.api.baseUrl as single source of truth for the backend URL
 const API = (window && window.location && window.location.hostname &&
   (window.location.hostname.includes('localhost') || window.location.hostname.includes('127.0.0.1')))
